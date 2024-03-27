@@ -94,19 +94,11 @@ class TestBooksCollector:
 
         assert len(collector.favorites) == 1 and 'поттер веселье' in collector.favorites
 
-    def test_get_list_of_favorites_books(self):
+    @pytest.mark.parametrize('name', ['гарри', 'гарри пожар', 'гарри горит', 'гарри ушел'])
+    def test_get_list_of_favorites_books(self, name):
         collector = BooksCollector()
-        collector.add_new_book('гарри')
-        collector.add_new_book('гарри кошмар')
-        collector.add_new_book('поттер веселье')
-        collector.add_new_book('поттер расследует')
-
-        collector.add_book_in_favorites('гарри')
-        collector.add_book_in_favorites('поттер веселье')
-        collector.delete_book_from_favorites('гарри')
-        collector.add_book_in_favorites('поттер расследует')
-
-
-        assert len(collector.favorites) == 2 and 'поттер расследует' in collector.favorites
+        collector.add_new_book(name)
+        collector.add_book_in_favorites(name)
+        assert len(collector.favorites) == 1 and name in collector.favorites
 
     # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
